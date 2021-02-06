@@ -68,22 +68,25 @@ public class ParkingLot {
             availableSlotList.remove(0);
         }
     }
-    public void leave(String slotNo, String hour) {
+    public void leave(String regNo, String hour) {
         if (this.MAX_SIZE == 0) {
             System.out.println("Sorry, parking lot is not created");
             System.out.println();
-        } else if (this.map1.size() > 0) {
-            Car carToLeave = this.map1.get(slotNo);
-            if (carToLeave != null) {
-                this.map1.remove(slotNo);
-                this.map2.remove(carToLeave.regNo);
+        } else if (this.map2.size() > 0) {
+            String slotCar = this.map2.get(regNo);
+            if (slotCar != null) {
+//                System.out.println(carToLeave);
+                Car carToLeave = this.map1.get(slotCar);
+
+                this.map1.remove(slotCar);
+                this.map2.remove(regNo);
                 ArrayList<String> regNoList = this.map3.get(carToLeave.color);
                 if (regNoList.contains(carToLeave.regNo)) {
                     regNoList.remove(carToLeave.regNo);
                 }
-                // Add the Lot No. back to available slot list.
-                this.availableSlotList.add(Integer.parseInt(slotNo));
-
+//                // Add the Lot No. back to available slot list.
+                this.availableSlotList.add(Integer.parseInt(slotCar));
+//
                 int parsHour = Integer.parseInt(hour);
                 int charge = 10, total_charge, hours=parsHour;
                 if (hours<=2){
@@ -91,10 +94,10 @@ public class ParkingLot {
                 } else {
                     total_charge = hours * charge - charge;
                 }
-                System.out.println("Registration number " + carToLeave.regNo+" "+ carToLeave.color + " with Slot Number "  + slotNo + " is free with Charge "+total_charge );
+                System.out.println("Registration number " + carToLeave.regNo+" "+ carToLeave.color + " with Slot Number "  + slotCar + " is free with Charge "+total_charge );
                 System.out.println();
             } else {
-                System.out.println("Registration number " + slotNo + " not found");
+                System.out.println("Registration number " + regNo + " not found");
                 System.out.println();
             }
         } else {
